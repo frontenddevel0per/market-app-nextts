@@ -1,0 +1,20 @@
+.bag {
+    padding: 24px 80px;
+    overflow: auto;
+    width: 100%;
+
+    h1 {
+        padding-left: 72px;
+        font-weight: 400;
+        font-size: 50px;
+        color: #1A1F16;
+    }
+
+    &__list {
+        width: 90%;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+    }
+}
