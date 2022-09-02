@@ -7,7 +7,7 @@ interface Item {
 }
 
 interface CounterState {
-  value: Array<Item>;
+  value: Item[];
 }
 
 const initialState: CounterState = {
@@ -43,8 +43,22 @@ export const bagSlice = createSlice({
       }
       state.value = newArr;
     },
+    removeItem: (state, action: PayloadAction<number>) => {
+      let newArr: Item[] = [];
+      state.value.map((item) => {
+        if (item.id === action.payload && item.count > 1) {
+          newArr.push({
+            id: item.id,
+            count: item.count - 1,
+          });
+        } else if (item.id !== action.payload) {
+          newArr.push(item);
+        }
+      });
+      state.value = newArr;
+    },
   },
 });
 
-export const { addItem } = bagSlice.actions;
+export const { addItem, removeItem } = bagSlice.actions;
 export default bagSlice.reducer;

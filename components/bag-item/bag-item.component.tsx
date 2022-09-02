@@ -1,37 +1,54 @@
 import { FC } from "react";
 import Image from "next/future/image";
-import StarIcon from "@mui/icons-material/Star";
-import StarHalfIcon from "@mui/icons-material/StarHalf";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import IconButton from "@mui/material/IconButton";
+import { Rating } from "@mui/material";
+import { myLoader } from "../helpers";
+import { useAppDispatch } from "../../redux/hooks";
+import { addItem, removeItem } from "../../redux/bag-slice";
 
-const BagItem: FC = () => {
+type BagItemProps = {
+  id: number;
+  src: string;
+  title: string;
+  subtitle: string;
+  shortdesc: string;
+  rating: number;
+  price: number;
+  count: number;
+};
+
+const BagItem: FC<BagItemProps> = ({
+  id,
+  src,
+  title,
+  subtitle,
+  shortdesc,
+  rating,
+  price,
+  count,
+}) => {
+  const dispatch = useAppDispatch();
   return (
     <div className="bag__item">
-      {/* <Image src={jacket} alt="jacket" /> */}
+      <Image loader={myLoader} src={src} alt={title} width={250} height={250} />
       <div className="bag__item-desc">
-        <h1>Dell XPS 13</h1>
-        <h2>White</h2>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam.
-        </p>
+        <h1>{title}</h1>
+        <h2>{subtitle}</h2>
+        <p>{shortdesc}</p>
         <div className="bag__item-desc-rating">
-          <StarIcon />
-          <StarIcon />
-          <StarIcon />
-          <StarIcon />
-          <StarHalfIcon />
-          <p>4.5 / 5</p>
+          <Rating name="read-only" value={rating} precision={0.5} readOnly />
+          <p>{rating} / 5</p>
         </div>
         <div className="bag__item-desc-priceholder">
           <p className="bag__item-desc-priceholder-price">$ 1799.99 x 1</p>
           <div className="bag__item-desc-priceholder-counter">
-            <IconButton>
+            <IconButton onClick={() => dispatch(removeItem(id))}>
               <RemoveIcon />
             </IconButton>
-            <p>1</p>
-            <IconButton>
+            <p>{count}</p>
+            <IconButton onClick={() => dispatch(addItem(id))}>
               <AddIcon />
             </IconButton>
           </div>
