@@ -6,11 +6,15 @@ import MenuIcon from "@mui/icons-material/Menu";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import Badge from "@mui/material/Badge";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
+import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { useAppSelector } from "../../redux/hooks";
+import { useAppSelector, useAppDispatch } from "../../redux/hooks";
+import { clearToken } from "../../redux/token/token-slice";
 
 const Sidebar: FC = () => {
+  const dispatch = useAppDispatch();
   const itemsCount = useAppSelector((state) => state.bag.value.length);
+  const token = useAppSelector((state) => state.token.value);
 
   return (
     <div className="sidebar">
@@ -36,10 +40,23 @@ const Sidebar: FC = () => {
           </IconButton>
         </Link>
       </div>
-      <div className="sidebar-bottom">
-        <a href="#">
-          <LogoutIcon htmlColor="white" />
-        </a>
+      <div
+        className={
+          token === null ? "sidebar-bottom unlogged" : "sidebar-bottom logged"
+        }
+      >
+        <div className="log-button">
+          {token === null ? (
+            <Link href="signin">
+              <LoginIcon htmlColor="white" />
+            </Link>
+          ) : (
+            <LogoutIcon
+              htmlColor="white"
+              onClick={() => dispatch(clearToken())}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
