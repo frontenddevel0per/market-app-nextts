@@ -18,10 +18,6 @@ import { useAppDispatch } from "../../redux/hooks";
 import { setToken } from "../../redux/token/token-slice";
 import { useRouter } from "next/router";
 
-type MutationProps = {
-  data: string;
-};
-
 const Copyright = (props: any) => {
   return (
     <Typography
