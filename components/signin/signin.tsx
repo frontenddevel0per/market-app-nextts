@@ -14,6 +14,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import { useMutation } from "react-query";
+import { useAppDispatch } from "../../redux/hooks";
+import { setToken } from "../../redux/token/token-slice";
 
 type MutationProps = {
   data: string;
@@ -40,6 +42,7 @@ const Copyright = (props: any) => {
 const theme = createTheme();
 
 const SignIn = () => {
+  const dispatch = useAppDispatch();
   const mutation = useMutation(
     (signinData: string) =>
       fetch("https://fakestoreapi.com/auth/login", {
@@ -53,6 +56,7 @@ const SignIn = () => {
       onSuccess: (data) => {
         console.log("success");
         console.log(data.token);
+        dispatch(setToken(data.token));
       },
       onError: () => {
         console.log("An error occurred");

@@ -6,7 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import { Rating } from "@mui/material";
 import { myLoader } from "../helpers";
 import { useAppDispatch } from "../../redux/hooks";
-import { addItem, removeItem } from "../../redux/bag-slice";
+import { addItem, removeItem } from "../../redux/bag/bag-slice";
 
 type BagItemProps = {
   id: number;

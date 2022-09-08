@@ -5,7 +5,7 @@ import IconButton from "@mui/material/IconButton";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { myLoader } from "../helpers";
 import { useAppDispatch } from "../../redux/hooks";
-import { addItem } from "../../redux/bag-slice";
+import { addItem } from "../../redux/bag/bag-slice";
 
 type CatalogItemProps = {
   id: number;

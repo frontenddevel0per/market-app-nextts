@@ -8,7 +8,7 @@ import Image from "next/future/image";
 import Link from "next/link";
 import { myLoader } from "../helpers";
 import { useAppDispatch } from "../../redux/hooks";
-import { addItem } from "../../redux/bag-slice";
+import { addItem } from "../../redux/bag/bag-slice";
 
 const AddButton = styled(Button)({
   backgroundColor: "#000000",
