@@ -4,7 +4,8 @@
 
 - Typescsript
 - React (Next.js)
-- SCSS
 - Redux
+- useQuery
+- SCSS
 
 ### [Ссылка на сайт](https://market-app-nextts.vercel.app/)
