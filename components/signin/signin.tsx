@@ -16,7 +16,6 @@ import AlertTitle from "@mui/material/AlertTitle";
 import { useMutation } from "react-query";
 import { useAppDispatch } from "../../redux/hooks";
 import { setToken } from "../../redux/token/token-slice";
-import { useRouter } from "next/router";
 
 const Copyright = (props: any) => {
   return (
@@ -40,8 +39,8 @@ const theme = createTheme();
 
 const SignIn = () => {
   const dispatch = useAppDispatch();
-  const router = useRouter();
-  const mutation = useMutation(
+
+  const { mutate, isError } = useMutation(
     (signinData: string) =>
       fetch("https://fakestoreapi.com/auth/login", {
         method: "POST",
@@ -55,7 +54,6 @@ const SignIn = () => {
         console.log("success");
         console.log(data.token);
         dispatch(setToken(data.token));
-        router.push("/");
       },
       onError: () => {
         console.log("An error occurred");
@@ -65,7 +63,7 @@ const SignIn = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      {mutation.isError ? (
+      {isError ? (
         <Alert severity="error">
           <AlertTitle>Ошибка!</AlertTitle>
           <strong>Неверный логин или пароль :(</strong>
@@ -97,7 +95,7 @@ const SignIn = () => {
                 username: signinData.get("login"),
                 password: signinData.get("password"),
               };
-              mutation.mutate(JSON.stringify(postData));
+              mutate(JSON.stringify(postData));
             }}
             noValidate
             sx={{ mt: 1 }}
