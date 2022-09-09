@@ -7,6 +7,7 @@ import { Rating } from "@mui/material";
 import { myLoader } from "../helpers";
 import { useAppDispatch } from "../../redux/hooks";
 import { addItem, removeItem } from "../../redux/bag/bag-slice";
+import { IMAGE_SIZE } from "../shared.constant";
 
 type BagItemProps = {
   id: number;
@@ -32,7 +33,13 @@ const BagItem: FC<BagItemProps> = ({
   const dispatch = useAppDispatch();
   return (
     <div className="bag__item">
-      <Image loader={myLoader} src={src} alt={title} width={250} height={250} />
+      <Image
+        loader={myLoader}
+        src={src}
+        alt={title}
+        width={IMAGE_SIZE}
+        height={IMAGE_SIZE}
+      />
       <div className="bag__item-desc">
         <h1>{title}</h1>
         <h2>{subtitle}</h2>
@@ -42,7 +49,9 @@ const BagItem: FC<BagItemProps> = ({
           <p>{rating} / 5</p>
         </div>
         <div className="bag__item-desc-priceholder">
-          <p className="bag__item-desc-priceholder-price">$ 1799.99 x 1</p>
+          <p className="bag__item-desc-priceholder-price">
+            $ {price} x {count}
+          </p>
           <div className="bag__item-desc-priceholder-counter">
             <IconButton onClick={() => dispatch(removeItem(id))}>
               <RemoveIcon />

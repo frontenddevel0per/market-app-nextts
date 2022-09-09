@@ -1,16 +1,29 @@
 .catalog__list-item {
     padding: 16px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     
-    img {
-        width: 100%;
-        height: auto;
-        border-radius: 22px;
-    }
-
-    h3 {
-        padding-left: 16px;
-        text-align: left;
+    &-top {
+        &-img {
+            width: 250px;
+            height: 250px;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 22px;
+    
+            img {
+                border-radius: 22px;
+            }
+        }
+    
+        h3 {
+            padding-left: 16px;
+            text-align: left;
+        }
     }
 
     p {
@@ -23,7 +36,7 @@
         justify-content: space-around;
         align-items: center;
         height: 50px;
-        position: relative;
+        position: static;
         bottom: 0;
 
         button {

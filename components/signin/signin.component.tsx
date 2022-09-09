@@ -16,6 +16,7 @@ import AlertTitle from "@mui/material/AlertTitle";
 import { useMutation } from "react-query";
 import { useAppDispatch } from "../../redux/hooks";
 import { setToken } from "../../redux/token/token-slice";
+import { SITE } from "./signin.constant";
 
 const Copyright = (props: any) => {
   return (
@@ -26,8 +27,8 @@ const Copyright = (props: any) => {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href={SITE.LINK}>
+        {SITE.NAME}
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -42,7 +43,7 @@ const SignIn = () => {
 
   const { mutate, isError } = useMutation(
     (signinData: string) =>
-      fetch("https://fakestoreapi.com/auth/login", {
+      fetch("https://api.escuelajs.co/api/v1/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -52,14 +53,24 @@ const SignIn = () => {
     {
       onSuccess: (data) => {
         console.log("success");
-        console.log(data.token);
-        dispatch(setToken(data.token));
+        console.log(data.access_token);
+        dispatch(setToken(data.access_token));
       },
       onError: () => {
         console.log("An error occurred");
       },
     }
   );
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const signinData = new FormData(event.currentTarget);
+    const postData = {
+      email: signinData.get("email"),
+      password: signinData.get("password"),
+    };
+    mutate(JSON.stringify(postData));
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -88,15 +99,7 @@ const SignIn = () => {
           </Typography>
           <Box
             component="form"
-            onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
-              event.preventDefault();
-              const signinData = new FormData(event.currentTarget);
-              const postData = {
-                username: signinData.get("login"),
-                password: signinData.get("password"),
-              };
-              mutate(JSON.stringify(postData));
-            }}
+            onSubmit={handleSubmit}
             noValidate
             sx={{ mt: 1 }}
           >
@@ -104,10 +107,10 @@ const SignIn = () => {
               margin="normal"
               required
               fullWidth
-              id="login"
-              label="Login"
-              name="login"
-              autoComplete="login"
+              id="email"
+              label="Email"
+              name="email"
+              autoComplete="email"
               autoFocus
             />
             <TextField

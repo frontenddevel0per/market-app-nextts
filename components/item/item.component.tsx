@@ -9,6 +9,7 @@ import Link from "next/link";
 import { myLoader } from "../helpers";
 import { useAppDispatch } from "../../redux/hooks";
 import { addItem } from "../../redux/bag/bag-slice";
+import { IMAGE_SIZE } from "../shared.constant";
 
 const AddButton = styled(Button)({
   backgroundColor: "#000000",
@@ -72,24 +73,24 @@ const Item: FC<ItemProps> = ({
               loader={myLoader}
               src={src1}
               alt="image1"
-              width={250}
-              height={250}
+              width={IMAGE_SIZE}
+              height={IMAGE_SIZE}
               onClick={() => setActiveImage(src1)}
             />
             <Image
               loader={myLoader}
               src={src2}
               alt="image2"
-              width={250}
-              height={250}
+              width={IMAGE_SIZE}
+              height={IMAGE_SIZE}
               onClick={() => setActiveImage(src2)}
             />
             <Image
               loader={myLoader}
               src={src3}
               alt="image3"
-              width={250}
-              height={250}
+              width={IMAGE_SIZE}
+              height={IMAGE_SIZE}
               onClick={() => setActiveImage(src3)}
             />
           </div>
@@ -97,8 +98,8 @@ const Item: FC<ItemProps> = ({
             loader={myLoader}
             src={activeImage}
             alt="mainimage"
-            width={250}
-            height={250}
+            width={IMAGE_SIZE}
+            height={IMAGE_SIZE}
           />
         </div>
         <div className="item__header-info">

@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import SignIn from "../components/signin/signin";
+import SignIn from "../components/signin/signin.component";
 import { useAppSelector } from "../redux/hooks";
 import { useRouter } from "next/router";
 

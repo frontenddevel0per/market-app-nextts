@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import { useAppSelector } from "../../redux/hooks";
 import { myLoader } from "../helpers";
+import { IMAGE_SIZE } from "../shared.constant";
 
 import DB from "../../resources/DB/DB.json";
 
@@ -36,8 +37,8 @@ const Sidebag: FC = () => {
           loader={myLoader}
           src={data[item.id].src1}
           alt={data[item.id].title}
-          width={250}
-          height={250}
+          width={IMAGE_SIZE}
+          height={IMAGE_SIZE}
           key={index}
         />
       );
@@ -48,13 +49,7 @@ const Sidebag: FC = () => {
   return (
     <div className="sidebag">
       <h1>Bag</h1>
-      <div className="sidebag__list">
-        {itemsArr}
-        {/* <Image src={jacket} alt="jacket" />
-        <Image src={jacket} alt="jacket" />
-        <Image src={jacket} alt="jacket" />
-        <Image src={jacket} alt="jacket" /> */}
-      </div>
+      <div className="sidebag__list">{itemsArr}</div>
       <Link href="/bag">
         <AddToCartButton
           variant="contained"
