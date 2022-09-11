@@ -1,14 +1,10 @@
 import { FC, useEffect, useState } from "react";
-import Image from "next/future/image";
 import Link from "next/link";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
+import SidebagImage from "../sidebag-image/sidebag-image.component";
 import { useAppSelector } from "../../redux/hooks";
-import { myLoader } from "../helpers";
-import { IMAGE_SIZE } from "../shared.constant";
-
-import DB from "../../resources/DB/DB.json";
 
 const AddToCartButton = styled(Button)({
   backgroundColor: "#ffffff",
@@ -27,21 +23,11 @@ const AddToCartButton = styled(Button)({
 const Sidebag: FC = () => {
   const [itemsArr, setItemsArr] = useState<JSX.Element[]>([]);
   const bagArr = useAppSelector((state) => state.bag.value);
-  const { data } = DB;
 
   useEffect(() => {
     let imgsArr: Array<JSX.Element> = [];
     bagArr.forEach((item, index) => {
-      imgsArr.push(
-        <Image
-          loader={myLoader}
-          src={data[item.id].src1}
-          alt={data[item.id].title}
-          width={IMAGE_SIZE}
-          height={IMAGE_SIZE}
-          key={index}
-        />
-      );
+      imgsArr.push(<SidebagImage id={item.id} key={index} />);
     });
     setItemsArr(imgsArr);
   }, [bagArr.length]);

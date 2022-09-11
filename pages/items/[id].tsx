@@ -3,33 +3,35 @@ import { useRouter } from "next/router";
 import Sidebag from "../../components/sidebag/sidebag.component";
 import Sidebar from "../../components/sidebar/sidebar.component";
 import Item from "../../components/item/item.component";
+import { useQuery } from "react-query";
 
-import DB from "../../resources/DB/DB.json";
-
-const Home: NextPage = () => {
+const ItemPage: NextPage = () => {
   let Id: number | null = null;
-  const { data } = DB;
   const router = useRouter();
   const { id } = router.query;
   if (id !== undefined) {
     Id = Number(id);
   }
 
+  const { data, isLoading, isError, isSuccess } = useQuery(`${Id}`, () =>
+    fetch(`https://api.escuelajs.co/api/v1/products/${Id}`).then((res) =>
+      res.json()
+    )
+  );
+
   return (
     <div className="main-page">
       <Sidebar />
-      {Id !== null ? (
+      {Id !== null && isSuccess ? (
         <Item
-          id={data[Id].id}
-          title={data[Id].title}
-          subtitle={data[Id].subtitle}
-          rating={data[Id].rating}
-          shortdesc={data[Id].shortdesc}
-          desc={data[Id].desc}
-          price={data[Id].price}
-          src1={data[Id].src1}
-          src2={data[Id].src2}
-          src3={data[Id].src3}
+          id={data.id}
+          title={data.title}
+          // rating={data.rating}
+          desc={data.description}
+          price={data.price}
+          src1={data.images[0]}
+          src2={data.images[1]}
+          src3={data.images[2]}
         />
       ) : null}
       <Sidebag />
@@ -37,4 +39,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default ItemPage;

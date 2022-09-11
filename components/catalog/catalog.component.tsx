@@ -30,6 +30,7 @@ const Catalog: FC = () => {
     () => fetchItems(counter),
     {
       keepPreviousData: true,
+      refetchOnWindowFocus: false,
     }
   );
 

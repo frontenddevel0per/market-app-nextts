@@ -29,10 +29,8 @@ const AddButton = styled(Button)({
 type ItemProps = {
   id: number;
   title: string;
-  subtitle: string;
-  rating: number;
-  shortdesc: string;
-  desc: Array<string>;
+  // rating: number;
+  desc: string;
   price: number;
   src1: string;
   src2: string;
@@ -42,9 +40,7 @@ type ItemProps = {
 const Item: FC<ItemProps> = ({
   id,
   title,
-  subtitle,
-  rating,
-  shortdesc,
+  // rating,
   desc,
   price,
   src1,
@@ -53,10 +49,6 @@ const Item: FC<ItemProps> = ({
 }) => {
   const [activeImage, setActiveImage] = useState<string>(src1);
   const dispatch = useAppDispatch();
-
-  const description = desc.map((item: string, index) => {
-    return <p key={index}>{item}</p>;
-  });
 
   return (
     <div className="item">
@@ -104,13 +96,11 @@ const Item: FC<ItemProps> = ({
         </div>
         <div className="item__header-info">
           <h1>{title}</h1>
-          <h2>{subtitle}</h2>
-          <div className="item__header-info-rating">
+          {/* <div className="item__header-info-rating">
             <Rating name="read-only" value={rating} precision={0.5} readOnly />
             <p>{rating} / 5</p>
-          </div>
+          </div> */}
           <h3>$ {price}</h3>
-          <p>{shortdesc}</p>
           <div className="item__header-info-button">
             <AddButton
               variant="contained"
@@ -125,7 +115,7 @@ const Item: FC<ItemProps> = ({
       </div>
       <div className="item__footer">
         <h2>Описание</h2>
-        <p>{description}</p>
+        <p>{desc}</p>
       </div>
     </div>
   );
