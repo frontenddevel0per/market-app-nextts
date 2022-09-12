@@ -5,7 +5,7 @@ import { useAppSelector } from "../../redux/hooks";
 const Bag: FC = () => {
   const bagValue = useAppSelector((state) => state.bag.value);
   const bagItems = bagValue.map((item, index) => (
-    <BagItem key={index} id={item.id} count={item.count} />
+    <BagItem key={item.id} id={item.id} count={item.count} />
   ));
 
   return (

@@ -7,7 +7,13 @@ import { persistStore } from "redux-persist";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 let persistor = persistStore(store);
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

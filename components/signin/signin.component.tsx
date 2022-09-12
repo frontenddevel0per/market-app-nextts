@@ -16,29 +16,12 @@ import AlertTitle from "@mui/material/AlertTitle";
 import { useMutation } from "react-query";
 import { useAppDispatch } from "../../redux/hooks";
 import { setToken } from "../../redux/token/token-slice";
-import { SITE } from "./signin.constant";
-
-const Copyright = (props: any) => {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href={SITE.LINK}>
-        {SITE.NAME}
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-};
+import Copyright from "../copyright/copyright.component";
+import { FC } from "react";
 
 const theme = createTheme();
 
-const SignIn = () => {
+const SignIn: FC = () => {
   const dispatch = useAppDispatch();
 
   const { mutate, isError } = useMutation(
@@ -142,7 +125,7 @@ const SignIn = () => {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/signup" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
