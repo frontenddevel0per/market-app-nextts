@@ -10,12 +10,13 @@ import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useAppDispatch } from "../../redux/hooks";
 import { clearToken } from "../../redux/token/token-slice";
-import { useBagSelector, useTokenSelector } from "../helpers";
+import { useAppSelector } from "../../redux/hooks";
+import { bagLengthSelector, tokenValueSelector } from "../helpers";
 
 const Sidebar: FC = () => {
   const dispatch = useAppDispatch();
-  const itemsCount = useBagSelector().length;
-  const token = useTokenSelector();
+  const itemsCount = useAppSelector(bagLengthSelector);
+  const token = useAppSelector(tokenValueSelector);
 
   return (
     <div className="sidebar">

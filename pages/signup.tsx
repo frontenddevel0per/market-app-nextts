@@ -1,11 +1,12 @@
 import type { NextPage } from "next";
 import SignUp from "../components/signup/signup.component";
 import { useAppSelector } from "../redux/hooks";
+import { tokenValueSelector } from "../components/helpers";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 const Signup: NextPage = () => {
-  const token = useAppSelector((state) => state.token.value);
+  const token = useAppSelector(tokenValueSelector);
   const router = useRouter();
 
   useEffect(() => {

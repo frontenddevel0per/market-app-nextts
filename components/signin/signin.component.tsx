@@ -15,12 +15,12 @@ import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import Copyright from "../copyright/copyright.component";
 import { FC } from "react";
-import { useSignIn } from "./signin.api";
+import { useSignInApi } from "./signin.api";
 
 const theme = createTheme();
 
 const SignIn: FC = () => {
-  const { mutate, isError } = useSignIn();
+  const { mutate, isError } = useSignInApi();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

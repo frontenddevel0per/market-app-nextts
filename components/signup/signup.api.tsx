@@ -1,7 +1,7 @@
 import { useMutation } from "react-query";
 import { useRouter } from "next/router";
 
-export const useSignUp = () => {
+export const useSignUpApi = () => {
   const router = useRouter();
   return useMutation(
     (data: string) =>

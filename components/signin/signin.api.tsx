@@ -2,7 +2,7 @@ import { useMutation } from "react-query";
 import { useAppDispatch } from "../../redux/hooks";
 import { setToken } from "../../redux/token/token-slice";
 
-export const useSignIn = () => {
+export const useSignInApi = () => {
   const dispatch = useAppDispatch();
   return useMutation(
     (signinData: string) =>

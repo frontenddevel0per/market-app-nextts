@@ -3,8 +3,8 @@ import Image from "next/future/image";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import IconButton from "@mui/material/IconButton";
-import { useQueryItem } from "../shared.api";
-import { myLoader } from "../helpers";
+import { useItemApi } from "../shared.api";
+import { imageLoader } from "../helpers";
 import { useAppDispatch } from "../../redux/hooks";
 import { addItem, removeItem } from "../../redux/bag/bag-slice";
 import { IMAGE_SIZE } from "../shared.constant";
@@ -16,14 +16,14 @@ type BagItemProps = {
 
 const BagItem: FC<BagItemProps> = ({ id, count }) => {
   const dispatch = useAppDispatch();
-  const { data, isLoading } = useQueryItem(id);
+  const { data, isLoading } = useItemApi(id);
 
   if (isLoading) return null;
 
   return (
     <div className="bag__item">
       <Image
-        loader={myLoader}
+        loader={imageLoader}
         src={data.images[0]}
         alt={data.title}
         width={IMAGE_SIZE}

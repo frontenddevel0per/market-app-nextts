@@ -2,12 +2,13 @@ import { FC, useEffect, useState } from "react";
 import Link from "next/link";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import SidebagImage from "../sidebag-image/sidebag-image.component";
-import { useBagSelector } from "../helpers";
+import { useAppSelector } from "../../redux/hooks";
+import { bagValueSelector } from "../helpers";
 import { AddToCartButton } from "./sidebag.styled";
 
 const Sidebag: FC = () => {
   const [itemsArr, setItemsArr] = useState<JSX.Element[]>([]);
-  const bagArr = useBagSelector();
+  const bagArr = useAppSelector(bagValueSelector);
 
   useEffect(() => {
     const imgarr = bagArr.map((item) => (
