@@ -8,7 +8,7 @@ import { myLoader } from "../helpers";
 import { useAppDispatch } from "../../redux/hooks";
 import { addItem } from "../../redux/bag/bag-slice";
 import { IMAGE_SIZE } from "../shared.constant";
-import { AddButton } from "./add-button.styled";
+import { AddButton } from "./item.styled";
 
 type ItemProps = {
   id: number;
@@ -24,7 +24,7 @@ const Item: FC<ItemProps> = ({ id, title, desc, price, src }) => {
 
   const imagesArr = src.map((item, index) => (
     <Image
-      key={index}
+      key={id}
       loader={myLoader}
       src={item}
       alt={`image ${index}`}

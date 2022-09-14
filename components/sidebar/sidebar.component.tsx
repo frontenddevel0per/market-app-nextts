@@ -8,13 +8,14 @@ import Badge from "@mui/material/Badge";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { useAppSelector, useAppDispatch } from "../../redux/hooks";
+import { useAppDispatch } from "../../redux/hooks";
 import { clearToken } from "../../redux/token/token-slice";
+import { useBagSelector, useTokenSelector } from "../helpers";
 
 const Sidebar: FC = () => {
   const dispatch = useAppDispatch();
-  const itemsCount = useAppSelector((state) => state.bag.value.length);
-  const token = useAppSelector((state) => state.token.value);
+  const itemsCount = useBagSelector().length;
+  const token = useTokenSelector();
 
   return (
     <div className="sidebar">

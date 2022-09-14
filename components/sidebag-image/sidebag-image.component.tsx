@@ -1,6 +1,7 @@
 import { FC } from "react";
 import Image from "next/future/image";
-import { myLoader, useQueryItem } from "../helpers";
+import { myLoader } from "../helpers";
+import { useQueryItem } from "../shared.api";
 import { IMAGE_SIZE } from "../shared.constant";
 
 type SidebagImageProps = {
@@ -15,8 +16,8 @@ const SidebagImage: FC<SidebagImageProps> = ({ id }) => {
       {isSuccess ? (
         <Image
           loader={myLoader}
-          src={data.images[0]}
-          alt={data.title}
+          src={data?.images[0]}
+          alt={data?.title}
           width={IMAGE_SIZE}
           height={IMAGE_SIZE}
         />

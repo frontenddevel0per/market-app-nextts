@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import Sidebag from "../../components/sidebag/sidebag.component";
 import Sidebar from "../../components/sidebar/sidebar.component";
 import Item from "../../components/item/item.component";
-import { useQueryItem } from "../../components/helpers";
+import { useQueryItem } from "../../components/shared.api";
 
 const ItemPage: NextPage = () => {
   const router = useRouter();

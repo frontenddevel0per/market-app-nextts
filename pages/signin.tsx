@@ -12,7 +12,7 @@ const Signin: NextPage = () => {
     {
       token !== null ? router.push("/") : null;
     }
-  });
+  }, [token]);
 
   return <div className="login">{token === null ? <SignIn /> : null}</div>;
 };
