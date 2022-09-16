@@ -8,6 +8,7 @@ import { imageLoader } from "../helpers";
 import { useAppDispatch } from "../../redux/hooks";
 import { addItem, removeItem } from "../../redux/bag/bag-slice";
 import { IMAGE_SIZE } from "../shared.constant";
+import { deleteItem } from "../../redux/bag/bag-slice";
 
 type BagItemProps = {
   id: number;
@@ -16,37 +17,45 @@ type BagItemProps = {
 
 const BagItem: FC<BagItemProps> = ({ id, count }) => {
   const dispatch = useAppDispatch();
-  const { data, isLoading } = useItemApi(id);
+  const { data, isSuccess } = useItemApi(id);
 
-  if (isLoading) return null;
+  if (isSuccess && data.error) {
+    dispatch(deleteItem(id));
+    return null;
+  }
 
   return (
-    <div className="bag__item">
-      <Image
-        loader={imageLoader}
-        src={data.images[0]}
-        alt={data.title}
-        width={IMAGE_SIZE}
-        height={IMAGE_SIZE}
-      />
-      <div className="bag__item-desc">
-        <h1>{data.title}</h1>
-        <div className="bag__item-desc-priceholder">
-          <p className="bag__item-desc-priceholder-price">
-            $ {data.price} x {count}
-          </p>
-          <div className="bag__item-desc-priceholder-counter">
-            <IconButton onClick={() => dispatch(removeItem(id))}>
-              <RemoveIcon />
-            </IconButton>
-            <p>{count}</p>
-            <IconButton onClick={() => dispatch(addItem(id))}>
-              <AddIcon />
-            </IconButton>
+    <>
+      {isSuccess ? (
+        <div className="bag__item">
+          <Image
+            loader={imageLoader}
+            src={data.images[0]}
+            alt={data.title}
+            width={IMAGE_SIZE}
+            height={IMAGE_SIZE}
+          />
+          <div className="bag__item-desc">
+            <h1>{data.title}</h1>
+            <div className="bag__item-desc-priceholder">
+              <p className="bag__item-desc-priceholder-price">
+                $ {data.price} x {count}
+              </p>
+              <div className="bag__item-desc-priceholder-counter">
+                <IconButton onClick={() => dispatch(removeItem(id))}>
+                  <RemoveIcon />
+                </IconButton>
+                <p>{count}</p>
+                <IconButton onClick={() => dispatch(addItem(id))}>
+                  <AddIcon />
+                </IconButton>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+      ) : null}
+      ;
+    </>
   );
 };
 
