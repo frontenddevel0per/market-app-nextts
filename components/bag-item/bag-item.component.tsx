@@ -8,7 +8,6 @@ import { imageLoader } from "../helpers";
 import { useAppDispatch } from "../../redux/hooks";
 import { addItem, removeItem } from "../../redux/bag/bag-slice";
 import { IMAGE_SIZE } from "../shared.constant";
-import { deleteItem } from "../../redux/bag/bag-slice";
 
 type BagItemProps = {
   id: number;
@@ -18,11 +17,6 @@ type BagItemProps = {
 const BagItem: FC<BagItemProps> = ({ id, count }) => {
   const dispatch = useAppDispatch();
   const { data, isSuccess } = useItemApi(id);
-
-  if (isSuccess && data.error) {
-    dispatch(deleteItem(id));
-    return null;
-  }
 
   return (
     <>
@@ -54,7 +48,6 @@ const BagItem: FC<BagItemProps> = ({ id, count }) => {
           </div>
         </div>
       ) : null}
-      ;
     </>
   );
 };
