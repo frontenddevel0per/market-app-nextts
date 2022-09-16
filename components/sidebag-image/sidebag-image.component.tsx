@@ -16,8 +16,8 @@ const SidebagImage: FC<SidebagImageProps> = ({ id }) => {
       {isSuccess ? (
         <Image
           loader={imageLoader}
-          src={data?.images[0]}
-          alt={data?.title}
+          src={data.images[0]}
+          alt={data.title}
           width={IMAGE_SIZE}
           height={IMAGE_SIZE}
         />

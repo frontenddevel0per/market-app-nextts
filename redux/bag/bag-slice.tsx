@@ -37,8 +37,11 @@ export const bagSlice = createSlice({
         });
       }
     },
+    deleteItem: (state, action: PayloadAction<number>) => {
+      state.value = state.value.filter((e) => e.id !== action.payload);
+    },
   },
 });
 
-export const { addItem, removeItem } = bagSlice.actions;
+export const { addItem, removeItem, deleteItem } = bagSlice.actions;
 export default bagSlice.reducer;
