@@ -1,6 +1,7 @@
 import { FC } from "react";
 import Image from "next/future/image";
-import { myLoader, useQueryItem } from "../helpers";
+import { imageLoader } from "../helpers";
+import { useItemApi } from "../shared.api";
 import { IMAGE_SIZE } from "../shared.constant";
 
 type SidebagImageProps = {
@@ -8,15 +9,15 @@ type SidebagImageProps = {
 };
 
 const SidebagImage: FC<SidebagImageProps> = ({ id }) => {
-  const { data, isSuccess } = useQueryItem(id);
+  const { data, isSuccess } = useItemApi(id);
 
   return (
     <>
       {isSuccess ? (
         <Image
-          loader={myLoader}
-          src={data.images[0]}
-          alt={data.title}
+          loader={imageLoader}
+          src={data?.images[0]}
+          alt={data?.title}
           width={IMAGE_SIZE}
           height={IMAGE_SIZE}
         />

@@ -11,30 +11,16 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
 import Copyright from "../copyright/copyright.component";
-import { useMutation } from "react-query";
-import { useRouter } from "next/router";
 import { FC } from "react";
+import { useSignUpApi } from "./signup.api";
 
 const theme = createTheme();
 
 const SignUp: FC = () => {
-  const router = useRouter();
-  const { mutate, isError } = useMutation(
-    (signupData: string) =>
-      fetch("https://api.escuelajs.co/api/v1/users/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: signupData,
-      }).then((res) => res.json()),
-    {
-      onSuccess: (data) => {
-        router.push("/signin");
-      },
-    }
-  );
+  const { mutate, isError } = useSignUpApi();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -50,6 +36,12 @@ const SignUp: FC = () => {
 
   return (
     <ThemeProvider theme={theme}>
+      {isError ? (
+        <Alert severity="error">
+          <AlertTitle>Ошибка!</AlertTitle>
+          <strong>Не удалось зарегистрировать пользователя</strong>
+        </Alert>
+      ) : null}
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box

@@ -4,11 +4,11 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import Image from "next/future/image";
 import Link from "next/link";
 import Button from "@mui/material/Button";
-import { myLoader } from "../helpers";
+import { imageLoader } from "../helpers";
 import { useAppDispatch } from "../../redux/hooks";
 import { addItem } from "../../redux/bag/bag-slice";
 import { IMAGE_SIZE } from "../shared.constant";
-import { AddButton } from "./add-button.styled";
+import { AddButton } from "./item.styled";
 
 type ItemProps = {
   id: number;
@@ -24,8 +24,8 @@ const Item: FC<ItemProps> = ({ id, title, desc, price, src }) => {
 
   const imagesArr = src.map((item, index) => (
     <Image
-      key={index}
-      loader={myLoader}
+      key={id}
+      loader={imageLoader}
       src={item}
       alt={`image ${index}`}
       width={IMAGE_SIZE}
@@ -46,7 +46,7 @@ const Item: FC<ItemProps> = ({ id, title, desc, price, src }) => {
         <div className="item__header-collage">
           <div className="item__header-collage-left">{imagesArr}</div>
           <Image
-            loader={myLoader}
+            loader={imageLoader}
             src={activeImage}
             alt="mainimage"
             width={IMAGE_SIZE}

@@ -13,37 +13,14 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
-import { useMutation } from "react-query";
-import { useAppDispatch } from "../../redux/hooks";
-import { setToken } from "../../redux/token/token-slice";
 import Copyright from "../copyright/copyright.component";
 import { FC } from "react";
+import { useSignInApi } from "./signin.api";
 
 const theme = createTheme();
 
 const SignIn: FC = () => {
-  const dispatch = useAppDispatch();
-
-  const { mutate, isError } = useMutation(
-    (signinData: string) =>
-      fetch("https://api.escuelajs.co/api/v1/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: signinData,
-      }).then((res) => res.json()),
-    {
-      onSuccess: (data) => {
-        console.log("success");
-        console.log(data.access_token);
-        dispatch(setToken(data.access_token));
-      },
-      onError: () => {
-        console.log("An error occurred");
-      },
-    }
-  );
+  const { mutate, isError } = useSignInApi();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

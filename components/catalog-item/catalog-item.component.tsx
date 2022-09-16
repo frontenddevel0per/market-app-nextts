@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import IconButton from "@mui/material/IconButton";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import { myLoader } from "../helpers";
+import { imageLoader } from "../helpers";
 import { useAppDispatch } from "../../redux/hooks";
 import { addItem } from "../../redux/bag/bag-slice";
 import { IMAGE_SIZE } from "../shared.constant";
@@ -23,7 +23,7 @@ const CatalogItem: FC<CatalogItemProps> = ({ id, title, src, price }) => {
         <div className="catalog__list-item-top">
           <div className="catalog__list-item-top-img">
             <Image
-              loader={myLoader}
+              loader={imageLoader}
               src={src}
               alt={title}
               width={IMAGE_SIZE}

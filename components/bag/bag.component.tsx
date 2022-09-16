@@ -1,9 +1,10 @@
 import { FC } from "react";
 import BagItem from "../bag-item/bag-item.component";
 import { useAppSelector } from "../../redux/hooks";
+import { bagValueSelector } from "../helpers";
 
 const Bag: FC = () => {
-  const bagValue = useAppSelector((state) => state.bag.value);
+  const bagValue = useAppSelector(bagValueSelector);
   const bagItems = bagValue.map((item, index) => (
     <BagItem key={item.id} id={item.id} count={item.count} />
   ));
