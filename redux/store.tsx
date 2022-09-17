@@ -3,6 +3,7 @@ import storage from "redux-persist/lib/storage";
 import { persistReducer } from "redux-persist";
 import bag from "./bag/bag-slice";
 import token from "./token/token-slice";
+import category from "./category/category-slice";
 import { combineReducers } from "redux";
 
 const persistConfig = {
@@ -10,7 +11,7 @@ const persistConfig = {
   storage,
 };
 
-const rootReducer = combineReducers({ bag, token });
+const rootReducer = combineReducers({ bag, token, category });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

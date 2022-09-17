@@ -11,3 +11,5 @@ export const bagValueSelector = (state: RootState) => state.bag.value;
 export const bagLengthSelector = (state: RootState) => state.bag.value.length;
 
 export const tokenValueSelector = (state: RootState) => state.token.value;
+
+export const categoryValueSelector = (state: RootState) => state.category.value;

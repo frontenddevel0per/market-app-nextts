@@ -1,11 +1,14 @@
-import { FC, useState } from "react";
-import TextField from "@mui/material/TextField";
+import { FC, useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import CatalogItem from "../catalog-item/catalog-item.component";
 import { useQuery } from "react-query";
+import { animateScroll as scroll } from "react-scroll";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { setCategory } from "../../redux/category/category-slice";
 import { PAGINATION_STEP } from "./catalog.constant";
+import { categoryValueSelector } from "../helpers";
 
 type ItemProps = {
   id: number;
@@ -17,17 +20,28 @@ type ItemProps = {
 };
 
 const Catalog: FC = () => {
+  const dispatch = useAppDispatch();
   const [counter, setCounter] = useState(1);
+  const category = useAppSelector(categoryValueSelector);
 
-  const fetchItems = (page: number) =>
+  useEffect(() => {
+    dispatch(setCategory(""));
+  }, []);
+
+  useEffect(() => {
+    setCounter(1);
+  }, [category]);
+
+  const fetchItems = (page: number, category: string) =>
     fetch(
-      `https://api.escuelajs.co/api/v1/products?offset=${
+      `https://api.escuelajs.co/api/v1/${category}products?offset=${
         (page - 1) * PAGINATION_STEP
       }&limit=${PAGINATION_STEP}`
     ).then((res) => res.json());
-  const { data, isLoading, isSuccess, isFetching, isPreviousData } = useQuery(
-    ["catalogPages", counter],
-    () => fetchItems(counter),
+
+  const { data, isLoading, isSuccess, isPreviousData } = useQuery(
+    ["catalogPages", category, counter],
+    () => fetchItems(counter, category),
     {
       keepPreviousData: true,
       refetchOnWindowFocus: false,
@@ -47,10 +61,7 @@ const Catalog: FC = () => {
   });
 
   return (
-    <div className="catalog">
-      <div className="catalog__searchbar">
-        <TextField fullWidth label="Поиск по каталогу" variant="outlined" />
-      </div>
+    <div className="catalog" id="catalog">
       <div className="catalog__list">{isSuccess && catalogArr}</div>
       <div className="catalog__navigation">
         <Button
@@ -58,6 +69,11 @@ const Catalog: FC = () => {
           startIcon={<NavigateBeforeIcon />}
           onClick={() => {
             setCounter(counter - 1);
+            scroll.scrollTo(0, {
+              duration: 500,
+              smooth: true,
+              containerId: "catalog",
+            });
           }}
           disabled={counter < 2}
         >
@@ -67,7 +83,14 @@ const Catalog: FC = () => {
         <Button
           variant="outlined"
           startIcon={<NavigateNextIcon />}
-          onClick={() => setCounter(counter + 1)}
+          onClick={() => {
+            setCounter(counter + 1);
+            scroll.scrollTo(0, {
+              duration: 500,
+              smooth: true,
+              containerId: "catalog",
+            });
+          }}
           disabled={isPreviousData}
         >
           Next
