@@ -124,7 +124,7 @@ const Sidebar: FC = () => {
       >
         <div className="log-button">
           {token === null ? (
-            <Link href="signin">
+            <Link href="/signin">
               <LoginIcon htmlColor="white" />
             </Link>
           ) : (

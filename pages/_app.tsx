@@ -7,6 +7,7 @@ import { persistStore } from "redux-persist";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Sidebar from "../components/sidebar/sidebar.component";
 import Sidebag from "../components/sidebag/sidebag.component";
+import { useRouter } from "next/router";
 
 let persistor = persistStore(store);
 const queryClient = new QueryClient({
@@ -18,14 +19,25 @@ const queryClient = new QueryClient({
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const router = useRouter();
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <QueryClientProvider client={queryClient}>
-          <div className="main-page">
-            <Sidebar />
+          <div
+            className={
+              router.pathname !== "/signup" && router.pathname !== "/signin"
+                ? "main-page"
+                : "container"
+            }
+          >
+            {router.pathname !== "/signup" && router.pathname !== "/signin" ? (
+              <Sidebar />
+            ) : null}
             <Component {...pageProps} />
-            <Sidebag />
+            {router.pathname !== "/signup" && router.pathname !== "/signin" ? (
+              <Sidebag />
+            ) : null}
           </div>
         </QueryClientProvider>
       </PersistGate>

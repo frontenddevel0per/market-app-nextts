@@ -10,6 +10,7 @@ import { bagValueSelector, imageLoader } from "../helpers";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { addItem, removeItem } from "../../redux/bag/bag-slice";
 import { IMAGE_SIZE } from "../shared.constant";
+import noImage from "../../resources/img/noimage.png";
 
 type CatalogItemProps = {
   id: number;
@@ -29,7 +30,7 @@ const CatalogItem: FC<CatalogItemProps> = ({ id, title, src, price }) => {
           <div className="catalog__list-item-top-img">
             <Image
               loader={imageLoader}
-              src={src}
+              src={src !== "" ? src : noImage}
               alt={title}
               width={IMAGE_SIZE}
               height={IMAGE_SIZE}
