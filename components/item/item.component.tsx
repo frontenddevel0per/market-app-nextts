@@ -4,9 +4,12 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import Image from "next/future/image";
 import Link from "next/link";
 import Button from "@mui/material/Button";
-import { imageLoader } from "../helpers";
-import { useAppDispatch } from "../../redux/hooks";
-import { addItem } from "../../redux/bag/bag-slice";
+import IconButton from "@mui/material/IconButton";
+import RemoveIcon from "@mui/icons-material/Remove";
+import AddIcon from "@mui/icons-material/Add";
+import { imageLoader, bagValueSelector } from "../helpers";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { addItem, removeItem } from "../../redux/bag/bag-slice";
 import { IMAGE_SIZE } from "../shared.constant";
 import { AddButton } from "./item.styled";
 
@@ -21,6 +24,7 @@ type ItemProps = {
 const Item: FC<ItemProps> = ({ id, title, desc, price, src }) => {
   const [activeImage, setActiveImage] = useState<string>(src[0]);
   const dispatch = useAppDispatch();
+  const isInBag = useAppSelector(bagValueSelector).find((e) => e.id === id);
 
   const imagesArr = src.map((item, index) => (
     <Image
@@ -56,16 +60,29 @@ const Item: FC<ItemProps> = ({ id, title, desc, price, src }) => {
         <div className="item__header-info">
           <h1>{title}</h1>
           <h3>$ {price}</h3>
-          <div className="item__header-info-button">
-            <AddButton
-              variant="contained"
-              startIcon={<AddShoppingCartIcon htmlColor="white" />}
-              color="inherit"
-              onClick={() => dispatch(addItem(id))}
-            >
-              Добавить в корзину
-            </AddButton>
-          </div>
+
+          {!isInBag ? (
+            <div className="item__header-info-button">
+              <AddButton
+                variant="contained"
+                startIcon={<AddShoppingCartIcon htmlColor="white" />}
+                color="inherit"
+                onClick={() => dispatch(addItem(id))}
+              >
+                Добавить в корзину
+              </AddButton>
+            </div>
+          ) : (
+            <div className="item__header-info-count">
+              <IconButton onClick={() => dispatch(removeItem(id))}>
+                <RemoveIcon fontSize="medium" />
+              </IconButton>
+              <p>{isInBag.count}</p>
+              <IconButton onClick={() => dispatch(addItem(id))}>
+                <AddIcon fontSize="medium" />
+              </IconButton>
+            </div>
+          )}
         </div>
       </div>
       <div className="item__footer">

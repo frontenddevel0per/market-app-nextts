@@ -18,8 +18,10 @@ import { setCategory } from "../../redux/category/category-slice";
 import { useAppSelector } from "../../redux/hooks";
 import { bagLengthSelector, tokenValueSelector } from "../helpers";
 import type { CategoryType } from "./sidebar.types";
+import { useRouter } from "next/router";
 
 const Sidebar: FC = () => {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const itemsCount = useAppSelector(bagLengthSelector);
   const token = useAppSelector(tokenValueSelector);
@@ -53,6 +55,7 @@ const Sidebar: FC = () => {
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
           onClick={handleClick}
+          disabled={router.pathname !== "/"}
         >
           <MenuIcon htmlColor="black" />
         </IconButton>
@@ -72,6 +75,7 @@ const Sidebar: FC = () => {
           }}
         >
           <MenuItem
+            key="all"
             onClick={() => {
               handleClose();
               dispatch(setCategory(""));

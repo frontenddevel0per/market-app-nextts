@@ -5,11 +5,14 @@ import Sidebar from "../components/sidebar/sidebar.component";
 
 const Home: NextPage = () => {
   return (
-    <div className="main-page">
-      <Sidebar />
+    // <div className="main-page">
+    //   <Sidebar />
+    //   <Bag />
+    //   <Sidebag />
+    // </div>
+    <>
       <Bag />
-      <Sidebag />
-    </div>
+    </>
   );
 };
 

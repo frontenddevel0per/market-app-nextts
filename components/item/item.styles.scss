@@ -62,6 +62,17 @@
             &-button {
                 text-align: right;
             }
+
+            &-count {
+                display: flex;
+                align-items: center;
+                justify-content: right;
+
+                p {
+                    margin: 0;
+                    font-size: 20px;
+                }
+            }
         }
     }
 

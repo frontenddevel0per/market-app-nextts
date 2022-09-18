@@ -22,7 +22,6 @@ const CatalogItem: FC<CatalogItemProps> = ({ id, title, src, price }) => {
   const dispatch = useAppDispatch();
   const bagValue = useAppSelector(bagValueSelector);
   const isInBag = bagValue.find((e) => e.id === id);
-  console.log(isInBag);
   return (
     <div className="catalog__list-item">
       <Link href={`/items/${id}`}>

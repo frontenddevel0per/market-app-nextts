@@ -12,8 +12,20 @@ const ItemPage: NextPage = () => {
   const { data, isSuccess } = useItemApi(Number(id));
 
   return (
-    <div className="main-page">
-      <Sidebar />
+    // <div className="main-page">
+    //   <Sidebar />
+    //   {id !== null && isSuccess ? (
+    //     <Item
+    //       id={data.id}
+    //       title={data.title}
+    //       desc={data.description}
+    //       price={data.price}
+    //       src={data.images}
+    //     />
+    //   ) : null}
+    //   <Sidebag />
+    // </div>
+    <>
       {id !== null && isSuccess ? (
         <Item
           id={data.id}
@@ -23,8 +35,7 @@ const ItemPage: NextPage = () => {
           src={data.images}
         />
       ) : null}
-      <Sidebag />
-    </div>
+    </>
   );
 };
 

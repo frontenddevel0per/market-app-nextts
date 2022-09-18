@@ -5,6 +5,8 @@ import store from "../redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 import { QueryClient, QueryClientProvider } from "react-query";
+import Sidebar from "../components/sidebar/sidebar.component";
+import Sidebag from "../components/sidebag/sidebag.component";
 
 let persistor = persistStore(store);
 const queryClient = new QueryClient({
@@ -20,7 +22,11 @@ function MyApp({ Component, pageProps }: AppProps) {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <QueryClientProvider client={queryClient}>
-          <Component {...pageProps} />
+          <div className="main-page">
+            <Sidebar />
+            <Component {...pageProps} />
+            <Sidebag />
+          </div>
         </QueryClientProvider>
       </PersistGate>
     </Provider>
