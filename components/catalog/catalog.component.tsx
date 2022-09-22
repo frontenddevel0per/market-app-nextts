@@ -3,11 +3,10 @@ import Button from "@mui/material/Button";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import CatalogItem from "../catalog-item/catalog-item.component";
-import { useQuery } from "react-query";
+import { useFetchItemsApi } from "./catalog.api";
 import { animateScroll as scroll } from "react-scroll";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { setCategory } from "../../redux/category/category-slice";
-import { PAGINATION_STEP } from "./catalog.constant";
 import { categoryValueSelector } from "../helpers";
 
 type ItemProps = {
@@ -32,20 +31,9 @@ const Catalog: FC = () => {
     setCounter(1);
   }, [category]);
 
-  const fetchItems = (page: number, category: string) =>
-    fetch(
-      `https://api.escuelajs.co/api/v1/${category}products?offset=${
-        (page - 1) * PAGINATION_STEP
-      }&limit=${PAGINATION_STEP}`
-    ).then((res) => res.json());
-
-  const { data, isLoading, isSuccess, isPreviousData } = useQuery(
-    ["catalogPages", category, counter],
-    () => fetchItems(counter, category),
-    {
-      keepPreviousData: true,
-      refetchOnWindowFocus: false,
-    }
+  const { data, isSuccess, isPreviousData } = useFetchItemsApi(
+    category,
+    counter
   );
 
   const catalogArr = data?.map((item: ItemProps) => {
@@ -54,6 +42,7 @@ const Catalog: FC = () => {
         key={item.id}
         id={item.id}
         title={item.title}
+        description={item.description}
         src={item.images[0]}
         price={item.price}
       />

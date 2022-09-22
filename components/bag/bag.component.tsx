@@ -5,8 +5,8 @@ import { bagValueSelector } from "../helpers";
 
 const Bag: FC = () => {
   const bagValue = useAppSelector(bagValueSelector);
-  const bagItems = bagValue.map((item, index) => (
-    <BagItem key={item.id} id={item.id} count={item.count} />
+  const bagItems = bagValue.map((item) => (
+    <BagItem key={item.id} id={item.id} count={item.count} data={item.data} />
   ));
 
   return (

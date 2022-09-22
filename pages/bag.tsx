@@ -1,16 +1,11 @@
 import type { NextPage } from "next";
+import Head from "next/head";
 import Bag from "../components/bag/bag.component";
-import Sidebag from "../components/sidebag/sidebag.component";
-import Sidebar from "../components/sidebar/sidebar.component";
 
 const Home: NextPage = () => {
   return (
-    // <div className="main-page">
-    //   <Sidebar />
-    //   <Bag />
-    //   <Sidebag />
-    // </div>
     <>
+      <Head>Bag</Head>
       <Bag />
     </>
   );

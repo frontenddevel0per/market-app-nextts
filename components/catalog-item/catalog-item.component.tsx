@@ -8,21 +8,34 @@ import AddIcon from "@mui/icons-material/Add";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { bagValueSelector, imageLoader } from "../helpers";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { addItem, removeItem } from "../../redux/bag/bag-slice";
+import { addItem, addItemInBag, removeItem } from "../../redux/bag/bag-slice";
 import { IMAGE_SIZE } from "../shared.constant";
 import noImage from "../../resources/img/noimage.png";
 
 type CatalogItemProps = {
   id: number;
   title: string;
+  description: string;
   src: string;
   price: number;
 };
 
-const CatalogItem: FC<CatalogItemProps> = ({ id, title, src, price }) => {
+const CatalogItem: FC<CatalogItemProps> = ({
+  id,
+  title,
+  description,
+  src,
+  price,
+}) => {
   const dispatch = useAppDispatch();
   const bagValue = useAppSelector(bagValueSelector);
   const isInBag = bagValue.find((e) => e.id === id);
+  const data = {
+    title,
+    description,
+    price,
+    src,
+  };
   return (
     <div className="catalog__list-item">
       <Link href={`/items/${id}`}>
@@ -42,7 +55,9 @@ const CatalogItem: FC<CatalogItemProps> = ({ id, title, src, price }) => {
       <div className="catalog__list-item-bottom">
         <h4>$ {price}</h4>
         {!isInBag ? (
-          <AddToCartIconButton onClick={() => dispatch(addItem(id))}>
+          <AddToCartIconButton
+            onClick={() => dispatch(addItemInBag({ id, data }))}
+          >
             <AddShoppingCartIcon htmlColor="white" />
           </AddToCartIconButton>
         ) : (

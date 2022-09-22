@@ -14,7 +14,6 @@ export const useItemApi = (id: number) => {
         return res.json();
       })
       .then((data) => {
-        console.log(data);
         if (data.images[0] === "") {
           data.images[0] = noImage;
         }

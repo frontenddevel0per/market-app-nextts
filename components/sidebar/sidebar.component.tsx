@@ -1,9 +1,7 @@
 import Link from "next/link";
 import { useState, FC } from "react";
-import { useQuery } from "react-query";
 import { animateScroll as scroll } from "react-scroll";
 import IconButton from "@mui/material/IconButton";
-import ChildFriendlyIcon from "@mui/icons-material/ChildFriendly";
 import MenuIcon from "@mui/icons-material/Menu";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import Badge from "@mui/material/Badge";
@@ -16,6 +14,7 @@ import { useAppDispatch } from "../../redux/hooks";
 import { clearToken } from "../../redux/token/token-slice";
 import { setCategory } from "../../redux/category/category-slice";
 import { useAppSelector } from "../../redux/hooks";
+import { useFetchCategoriesApi } from "./sidebar.api";
 import { bagLengthSelector, tokenValueSelector } from "../helpers";
 import type { CategoryType } from "./sidebar.types";
 import { useRouter } from "next/router";
@@ -27,7 +26,6 @@ const Sidebar: FC = () => {
   const token = useAppSelector(tokenValueSelector);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -35,11 +33,7 @@ const Sidebar: FC = () => {
     setAnchorEl(null);
   };
 
-  const { data, isSuccess } = useQuery("categories", () =>
-    fetch("https://api.escuelajs.co/api/v1/categories").then((res) =>
-      res.json()
-    )
-  );
+  const { data, isSuccess } = useFetchCategoriesApi();
 
   return (
     <div className="sidebar">
@@ -51,9 +45,9 @@ const Sidebar: FC = () => {
         </Link>
         <IconButton
           id="menu-button"
-          aria-controls={open ? "menu-list" : undefined}
+          aria-controls={anchorEl ? "menu-list" : undefined}
           aria-haspopup="true"
-          aria-expanded={open ? "true" : undefined}
+          aria-expanded={anchorEl ? "true" : undefined}
           onClick={handleClick}
           disabled={router.pathname !== "/"}
         >
@@ -63,7 +57,7 @@ const Sidebar: FC = () => {
           id="menu-list"
           aria-labelledby="menu-button"
           anchorEl={anchorEl}
-          open={open}
+          open={Boolean(anchorEl)}
           onClose={handleClose}
           anchorOrigin={{
             vertical: "top",
@@ -88,26 +82,23 @@ const Sidebar: FC = () => {
           >
             All
           </MenuItem>
-          {isSuccess
-            ? data.map((item: CategoryType) => (
-                <>
-                  <MenuItem
-                    key={item.id}
-                    onClick={() => {
-                      handleClose();
-                      dispatch(setCategory(`categories/${item.id}/`));
-                      scroll.scrollTo(0, {
-                        duration: 500,
-                        smooth: true,
-                        containerId: "catalog",
-                      });
-                    }}
-                  >
-                    {item.name}
-                  </MenuItem>
-                </>
-              ))
-            : null}
+          {isSuccess &&
+            data.map((item: CategoryType) => (
+              <MenuItem
+                key={item.id}
+                onClick={() => {
+                  handleClose();
+                  dispatch(setCategory(`categories/${item.id}/`));
+                  scroll.scrollTo(0, {
+                    duration: 500,
+                    smooth: true,
+                    containerId: "catalog",
+                  });
+                }}
+              >
+                {item.name}
+              </MenuItem>
+            ))}
         </Menu>
         <Link href="/bag">
           <IconButton>

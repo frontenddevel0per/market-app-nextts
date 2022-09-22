@@ -20,6 +20,12 @@
             font-weight: 400;
             font-size: 32px;
             color: #1A1F16;
+            cursor: pointer;
+
+            &:hover {
+                text-decoration: underline;
+                color: #606060;
+            }
         }
         
         h2 {

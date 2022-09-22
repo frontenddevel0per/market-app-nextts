@@ -1,8 +1,14 @@
-export interface Item {
+type Item = {
   id: number;
   count: number;
-}
+  data: {
+    title: string;
+    price: number;
+    description: string;
+    src: string;
+  };
+};
 
-export interface CounterState {
+export type CounterState = {
   value: Item[];
-}
+};

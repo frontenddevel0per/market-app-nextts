@@ -20,25 +20,20 @@ const queryClient = new QueryClient({
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
+
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <QueryClientProvider client={queryClient}>
-          <div
-            className={
-              router.pathname !== "/signup" && router.pathname !== "/signin"
-                ? "main-page"
-                : "container"
-            }
-          >
-            {router.pathname !== "/signup" && router.pathname !== "/signin" ? (
-              <Sidebar />
-            ) : null}
+          {router.pathname === "/signup" || router.pathname === "/signin" ? (
             <Component {...pageProps} />
-            {router.pathname !== "/signup" && router.pathname !== "/signin" ? (
+          ) : (
+            <div className="main-page">
+              <Sidebar />
+              <Component {...pageProps} />
               <Sidebag />
-            ) : null}
-          </div>
+            </div>
+          )}
         </QueryClientProvider>
       </PersistGate>
     </Provider>
