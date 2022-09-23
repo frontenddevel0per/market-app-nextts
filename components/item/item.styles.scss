@@ -5,7 +5,7 @@
 
     &__header {
         display: flex;
-        justify-content: space-between;
+        justify-content: left;
         padding-top: 40px;
         gap: 32px;
 
@@ -60,7 +60,19 @@
             }
 
             &-button {
-                text-align: right;
+                text-align: center;
+            }
+
+            &-count {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 16px;
+
+                p {
+                    margin: 0;
+                    font-size: 20px;
+                }
             }
         }
     }

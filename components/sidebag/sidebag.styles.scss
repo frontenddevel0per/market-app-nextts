@@ -1,5 +1,6 @@
 .sidebag {
-    width: 345px;
+    min-width: 280px;
+    max-width: 280px;
     padding: 16px;
 
     text-align: center;
@@ -20,6 +21,7 @@
             width: 100%;
             height: auto;
             border-radius: 12px;
+            cursor: pointer;
         }
     }
 }
@@ -31,6 +33,7 @@
         display: flex;
         align-items: center;
         gap: 32px;
+        max-width: auto;
         width: 100%;
         padding: 0;
         justify-content: center;

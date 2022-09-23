@@ -2,21 +2,33 @@ import { FC } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import IconButton from "@mui/material/IconButton";
+import { AddToCartIconButton } from "./catalog-item.styled";
+import RemoveIcon from "@mui/icons-material/Remove";
+import AddIcon from "@mui/icons-material/Add";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import { imageLoader } from "../helpers";
-import { useAppDispatch } from "../../redux/hooks";
-import { addItem } from "../../redux/bag/bag-slice";
+import { bagValueSelector, imageLoader } from "../helpers";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { addItem, addItemInBag, removeItem } from "../../redux/bag/bag-slice";
 import { IMAGE_SIZE } from "../shared.constant";
+import noImage from "../../resources/img/noimage.png";
+import { CatalogItemProps } from "./catalog-item.types";
 
-type CatalogItemProps = {
-  id: number;
-  title: string;
-  src: string;
-  price: number;
-};
-
-const CatalogItem: FC<CatalogItemProps> = ({ id, title, src, price }) => {
+const CatalogItem: FC<CatalogItemProps> = ({
+  id,
+  title,
+  description,
+  src,
+  price,
+}) => {
   const dispatch = useAppDispatch();
+  const bagValue = useAppSelector(bagValueSelector);
+  const isInBag = bagValue.find((e) => e.id === id);
+  const data = {
+    title,
+    description,
+    price,
+    src,
+  };
   return (
     <div className="catalog__list-item">
       <Link href={`/items/${id}`}>
@@ -24,7 +36,7 @@ const CatalogItem: FC<CatalogItemProps> = ({ id, title, src, price }) => {
           <div className="catalog__list-item-top-img">
             <Image
               loader={imageLoader}
-              src={src}
+              src={src !== "" ? src : noImage}
               alt={title}
               width={IMAGE_SIZE}
               height={IMAGE_SIZE}
@@ -35,9 +47,23 @@ const CatalogItem: FC<CatalogItemProps> = ({ id, title, src, price }) => {
       </Link>
       <div className="catalog__list-item-bottom">
         <h4>$ {price}</h4>
-        <IconButton onClick={() => dispatch(addItem(id))}>
-          <AddShoppingCartIcon htmlColor="white" />
-        </IconButton>
+        {!isInBag ? (
+          <AddToCartIconButton
+            onClick={() => dispatch(addItemInBag({ id, data }))}
+          >
+            <AddShoppingCartIcon htmlColor="white" />
+          </AddToCartIconButton>
+        ) : (
+          <div className="catalog__list-item-bottom-count">
+            <IconButton onClick={() => dispatch(removeItem(id))}>
+              <RemoveIcon />
+            </IconButton>
+            <p>{isInBag.count}</p>
+            <IconButton onClick={() => dispatch(addItem(id))}>
+              <AddIcon />
+            </IconButton>
+          </div>
+        )}
       </div>
     </div>
   );

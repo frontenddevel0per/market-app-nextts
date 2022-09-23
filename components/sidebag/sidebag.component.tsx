@@ -5,22 +5,35 @@ import SidebagImage from "../sidebag-image/sidebag-image.component";
 import { useAppSelector } from "../../redux/hooks";
 import { bagValueSelector } from "../helpers";
 import { AddToCartButton } from "./sidebag.styled";
+import { useRouter } from "next/router";
 
 const Sidebag: FC = () => {
-  const [itemsArr, setItemsArr] = useState<JSX.Element[]>([]);
-  const bagArr = useAppSelector(bagValueSelector);
-
-  useEffect(() => {
-    const imgarr = bagArr.map((item) => (
-      <SidebagImage id={item.id} key={item.id} />
-    ));
-    setItemsArr(imgarr);
-  }, [bagArr.length]);
+  const router = useRouter();
+  const bagValue = useAppSelector(bagValueSelector);
 
   return (
     <div className="sidebag">
       <h1>Bag</h1>
-      <div className="sidebag__list">{itemsArr}</div>
+      <div className="sidebag__list">
+        {bagValue.map((item) => (
+          <SidebagImage
+            key={item.id}
+            id={item.id}
+            src={item.data.src}
+            title={item.data.title}
+          />
+        ))}
+      </div>
+      {router.pathname === "/bag" && (
+        <h3>
+          Bag Total: $
+          {bagValue.reduce(
+            (summ, currentItem) =>
+              summ + currentItem.data.price * currentItem.count,
+            0
+          )}
+        </h3>
+      )}
       <Link href="/bag">
         <AddToCartButton
           variant="contained"
@@ -28,7 +41,7 @@ const Sidebag: FC = () => {
           startIcon={<LocalMallIcon htmlColor="black" />}
           color="inherit"
         >
-          View Bag
+          {router.pathname !== "/bag" ? "View Bag" : "Checkout"}
         </AddToCartButton>
       </Link>
     </div>

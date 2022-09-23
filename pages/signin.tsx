@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import Head from "next/head";
 import SignIn from "../components/signin/signin.component";
 import { useAppSelector } from "../redux/hooks";
 import { tokenValueSelector } from "../components/helpers";
@@ -15,7 +16,14 @@ const Signin: NextPage = () => {
     }
   }, [token]);
 
-  return <div className="login">{token === null ? <SignIn /> : null}</div>;
+  return (
+    <>
+      <Head>
+        <title>SignIn</title>
+      </Head>
+      <div className="login">{token === null ? <SignIn /> : null}</div>
+    </>
+  );
 };
 
 export default Signin;

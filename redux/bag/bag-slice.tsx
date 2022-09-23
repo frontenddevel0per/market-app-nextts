@@ -1,8 +1,18 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import type { Item, CounterState } from "./bag.types";
+import type { CounterState } from "./bag.types";
 
 const initialState: CounterState = {
   value: [],
+};
+
+type PayloadType = {
+  id: number;
+  data: {
+    title: string;
+    price: number;
+    description: string;
+    src: string;
+  };
 };
 
 export const bagSlice = createSlice({
@@ -10,17 +20,23 @@ export const bagSlice = createSlice({
   initialState,
   reducers: {
     addItem: (state, action: PayloadAction<number>) => {
-      if (!state.value.some((e) => e.id === action.payload)) {
-        state.value = [...state.value, { id: action.payload, count: 1 }];
-      } else {
-        state.value = state.value.map((item) => {
-          if (item.id === action.payload) {
-            return { id: item.id, count: item.count + 1 };
-          } else {
-            return item;
-          }
-        });
-      }
+      state.value = state.value.map((item) => {
+        if (item.id === action.payload) {
+          return {
+            id: item.id,
+            count: item.count + 1,
+            data: item.data,
+          };
+        } else {
+          return item;
+        }
+      });
+    },
+    addItemInBag: (state, action: PayloadAction<PayloadType>) => {
+      state.value = [
+        ...state.value,
+        { id: action.payload.id, count: 1, data: action.payload.data },
+      ];
     },
     removeItem: (state, action: PayloadAction<number>) => {
       const item = state.value.find((e) => e.id === action.payload);
@@ -32,7 +48,11 @@ export const bagSlice = createSlice({
           if (item.id !== action.payload) {
             return item;
           } else {
-            return { id: item.id, count: item.count - 1 };
+            return {
+              id: item.id,
+              count: item.count - 1,
+              data: item.data,
+            };
           }
         });
       }
@@ -43,5 +63,6 @@ export const bagSlice = createSlice({
   },
 });
 
-export const { addItem, removeItem, deleteItem } = bagSlice.actions;
+export const { addItem, addItemInBag, removeItem, deleteItem } =
+  bagSlice.actions;
 export default bagSlice.reducer;

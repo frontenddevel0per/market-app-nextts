@@ -1,37 +1,31 @@
-import { FC, useState } from "react";
-import TextField from "@mui/material/TextField";
+import { FC, useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import CatalogItem from "../catalog-item/catalog-item.component";
-import { useQuery } from "react-query";
-import { PAGINATION_STEP } from "./catalog.constant";
-
-type ItemProps = {
-  id: number;
-  title: string;
-  price: number;
-  category: string;
-  description: string;
-  images: string[];
-};
+import { useFetchItemsApi } from "./catalog.api";
+import { animateScroll as scroll } from "react-scroll";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { setCategory } from "../../redux/category/category-slice";
+import { categoryValueSelector } from "../helpers";
+import { ItemProps } from "./catalog.types";
 
 const Catalog: FC = () => {
+  const dispatch = useAppDispatch();
   const [counter, setCounter] = useState(1);
+  const category = useAppSelector(categoryValueSelector);
 
-  const fetchItems = (page: number) =>
-    fetch(
-      `https://api.escuelajs.co/api/v1/products?offset=${
-        (page - 1) * PAGINATION_STEP
-      }&limit=${PAGINATION_STEP}`
-    ).then((res) => res.json());
-  const { data, isLoading, isSuccess, isFetching, isPreviousData } = useQuery(
-    ["catalogPages", counter],
-    () => fetchItems(counter),
-    {
-      keepPreviousData: true,
-      refetchOnWindowFocus: false,
-    }
+  useEffect(() => {
+    dispatch(setCategory(""));
+  }, []);
+
+  useEffect(() => {
+    setCounter(1);
+  }, [category]);
+
+  const { data, isSuccess, isPreviousData } = useFetchItemsApi(
+    category,
+    counter
   );
 
   const catalogArr = data?.map((item: ItemProps) => {
@@ -40,6 +34,7 @@ const Catalog: FC = () => {
         key={item.id}
         id={item.id}
         title={item.title}
+        description={item.description}
         src={item.images[0]}
         price={item.price}
       />
@@ -47,10 +42,7 @@ const Catalog: FC = () => {
   });
 
   return (
-    <div className="catalog">
-      <div className="catalog__searchbar">
-        <TextField fullWidth label="Поиск по каталогу" variant="outlined" />
-      </div>
+    <div className="catalog" id="catalog">
       <div className="catalog__list">{isSuccess && catalogArr}</div>
       <div className="catalog__navigation">
         <Button
@@ -58,6 +50,11 @@ const Catalog: FC = () => {
           startIcon={<NavigateBeforeIcon />}
           onClick={() => {
             setCounter(counter - 1);
+            scroll.scrollTo(0, {
+              duration: 500,
+              smooth: true,
+              containerId: "catalog",
+            });
           }}
           disabled={counter < 2}
         >
@@ -67,7 +64,14 @@ const Catalog: FC = () => {
         <Button
           variant="outlined"
           startIcon={<NavigateNextIcon />}
-          onClick={() => setCounter(counter + 1)}
+          onClick={() => {
+            setCounter(counter + 1);
+            scroll.scrollTo(0, {
+              duration: 500,
+              smooth: true,
+              containerId: "catalog",
+            });
+          }}
           disabled={isPreviousData}
         >
           Next

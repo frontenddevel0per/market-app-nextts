@@ -1,4 +1,4 @@
-type Item = {
+export type BagItemProps = {
   id: number;
   count: number;
   data: {
@@ -7,8 +7,4 @@ type Item = {
     description: string;
     src: string;
   };
-};
-
-export type CounterState = {
-  value: Item[];
 };

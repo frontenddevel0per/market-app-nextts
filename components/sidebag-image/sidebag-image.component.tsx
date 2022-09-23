@@ -1,27 +1,22 @@
 import { FC } from "react";
 import Image from "next/future/image";
 import { imageLoader } from "../helpers";
-import { useItemApi } from "../shared.api";
 import { IMAGE_SIZE } from "../shared.constant";
+import Link from "next/link";
+import { SidebagImageProps } from "./sidebag-image.types";
 
-type SidebagImageProps = {
-  id: number;
-};
-
-const SidebagImage: FC<SidebagImageProps> = ({ id }) => {
-  const { data, isSuccess } = useItemApi(id);
-
+const SidebagImage: FC<SidebagImageProps> = ({ id, title, src }) => {
   return (
     <>
-      {isSuccess ? (
+      <Link href={`/items/${id}`}>
         <Image
           loader={imageLoader}
-          src={data.images[0]}
-          alt={data.title}
+          src={src}
+          alt={title}
           width={IMAGE_SIZE}
           height={IMAGE_SIZE}
         />
-      ) : null}
+      </Link>
     </>
   );
 };
