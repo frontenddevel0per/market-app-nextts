@@ -12,14 +12,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { addItem, addItemInBag, removeItem } from "../../redux/bag/bag-slice";
 import { IMAGE_SIZE } from "../shared.constant";
 import { AddButton } from "./item.styled";
-
-type ItemProps = {
-  id: number;
-  title: string;
-  desc: string;
-  price: number;
-  src: string[];
-};
+import { ItemProps } from "./item.types";
 
 const Item: FC<ItemProps> = ({ id, title, desc, price, src }) => {
   const [activeImage, setActiveImage] = useState<string>(src[0]);

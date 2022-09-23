@@ -8,15 +8,7 @@ import { animateScroll as scroll } from "react-scroll";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { setCategory } from "../../redux/category/category-slice";
 import { categoryValueSelector } from "../helpers";
-
-type ItemProps = {
-  id: number;
-  title: string;
-  price: number;
-  category: string;
-  description: string;
-  images: string[];
-};
+import { ItemProps } from "./catalog.types";
 
 const Catalog: FC = () => {
   const dispatch = useAppDispatch();

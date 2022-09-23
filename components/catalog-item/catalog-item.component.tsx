@@ -11,14 +11,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { addItem, addItemInBag, removeItem } from "../../redux/bag/bag-slice";
 import { IMAGE_SIZE } from "../shared.constant";
 import noImage from "../../resources/img/noimage.png";
-
-type CatalogItemProps = {
-  id: number;
-  title: string;
-  description: string;
-  src: string;
-  price: number;
-};
+import { CatalogItemProps } from "./catalog-item.types";
 
 const CatalogItem: FC<CatalogItemProps> = ({
   id,

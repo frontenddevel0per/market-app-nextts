@@ -8,17 +8,7 @@ import { imageLoader } from "../helpers";
 import { useAppDispatch } from "../../redux/hooks";
 import { addItem, removeItem } from "../../redux/bag/bag-slice";
 import { IMAGE_SIZE } from "../shared.constant";
-
-type BagItemProps = {
-  id: number;
-  count: number;
-  data: {
-    title: string;
-    price: number;
-    description: string;
-    src: string;
-  };
-};
+import { BagItemProps } from "./bag-item.types";
 
 const BagItem: FC<BagItemProps> = ({ id, count, data }) => {
   const dispatch = useAppDispatch();

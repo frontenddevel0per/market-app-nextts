@@ -5,7 +5,9 @@ import Bag from "../components/bag/bag.component";
 const Home: NextPage = () => {
   return (
     <>
-      <Head>Bag</Head>
+      <Head>
+        <title>Bag</title>
+      </Head>
       <Bag />
     </>
   );
