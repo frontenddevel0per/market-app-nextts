@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import Sidebar from "../components/sidebar/sidebar.component";
 import Sidebag from "../components/sidebag/sidebag.component";
 import { useRouter } from "next/router";
+import { AuthProvider } from "../components/auth/auth.context";
 
 let persistor = persistStore(store);
 const queryClient = new QueryClient({
@@ -25,15 +26,17 @@ function MyApp({ Component, pageProps }: AppProps) {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <QueryClientProvider client={queryClient}>
-          {router.pathname === "/signup" || router.pathname === "/signin" ? (
-            <Component {...pageProps} />
-          ) : (
-            <div className="main-page">
-              <Sidebar />
+          <AuthProvider>
+            {router.pathname === "/signup" || router.pathname === "/signin" ? (
               <Component {...pageProps} />
-              <Sidebag />
-            </div>
-          )}
+            ) : (
+              <div className="main-page">
+                <Sidebar />
+                <Component {...pageProps} />
+                <Sidebag />
+              </div>
+            )}
+          </AuthProvider>
         </QueryClientProvider>
       </PersistGate>
     </Provider>

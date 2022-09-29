@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useState, FC } from "react";
+import { useState, FC, useContext } from "react";
 import { animateScroll as scroll } from "react-scroll";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -11,19 +11,21 @@ import MenuItem from "@mui/material/MenuItem";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useAppDispatch } from "../../redux/hooks";
-import { clearToken } from "../../redux/token/token-slice";
+import { clearUserData } from "../../redux/userdata/userdata-slice";
 import { setCategory } from "../../redux/category/category-slice";
 import { useAppSelector } from "../../redux/hooks";
 import { useFetchCategoriesApi } from "./sidebar.api";
 import { bagLengthSelector, tokenValueSelector } from "../helpers";
 import type { CategoryType } from "./sidebar.types";
 import { useRouter } from "next/router";
+import { useAuthContext } from "../auth/auth.context";
 
 const Sidebar: FC = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const itemsCount = useAppSelector(bagLengthSelector);
   const token = useAppSelector(tokenValueSelector);
+  const { isAuthorized, setIsAuthorized } = useAuthContext();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -31,6 +33,25 @@ const Sidebar: FC = () => {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const onLogout = () => {
+    dispatch(clearUserData());
+    setIsAuthorized(false);
+  };
+
+  const onMenuListClick = (id?: number) => {
+    handleClose();
+    if (id) {
+      dispatch(setCategory(`categories/${id}/`));
+    } else {
+      dispatch(setCategory(""));
+    }
+    scroll.scrollTo(0, {
+      duration: 500,
+      smooth: true,
+      containerId: "catalog",
+    });
   };
 
   const { data, isSuccess } = useFetchCategoriesApi();
@@ -68,34 +89,12 @@ const Sidebar: FC = () => {
             horizontal: "left",
           }}
         >
-          <MenuItem
-            key="all"
-            onClick={() => {
-              handleClose();
-              dispatch(setCategory(""));
-              scroll.scrollTo(0, {
-                duration: 500,
-                smooth: true,
-                containerId: "catalog",
-              });
-            }}
-          >
+          <MenuItem key="all" onClick={() => onMenuListClick()}>
             All
           </MenuItem>
           {isSuccess &&
             data.map((item: CategoryType) => (
-              <MenuItem
-                key={item.id}
-                onClick={() => {
-                  handleClose();
-                  dispatch(setCategory(`categories/${item.id}/`));
-                  scroll.scrollTo(0, {
-                    duration: 500,
-                    smooth: true,
-                    containerId: "catalog",
-                  });
-                }}
-              >
+              <MenuItem key={item.id} onClick={() => onMenuListClick(item.id)}>
                 {item.name}
               </MenuItem>
             ))}
@@ -110,19 +109,16 @@ const Sidebar: FC = () => {
       </div>
       <div
         className={
-          token === null ? "sidebar-bottom unlogged" : "sidebar-bottom logged"
+          !isAuthorized ? "sidebar-bottom unlogged" : "sidebar-bottom logged"
         }
       >
         <div className="log-button">
-          {token === null ? (
+          {!isAuthorized ? (
             <Link href="/signin">
               <LoginIcon htmlColor="white" />
             </Link>
           ) : (
-            <LogoutIcon
-              htmlColor="white"
-              onClick={() => dispatch(clearToken())}
-            />
+            <LogoutIcon htmlColor="white" onClick={() => onLogout()} />
           )}
         </div>
       </div>

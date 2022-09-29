@@ -15,12 +15,15 @@ import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import Copyright from "../copyright/copyright.component";
 import { FC } from "react";
-import { useSignInApi } from "./signin.api";
+import { useSignInApi, useCheckSessionApi } from "./signin.api";
+import { useAppSelector } from "../../redux/hooks";
+import { tokenValueSelector } from "../helpers";
 
 const theme = createTheme();
 
 const SignIn: FC = () => {
   const { mutate, isError } = useSignInApi();
+  const token = useAppSelector(tokenValueSelector);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -32,14 +35,16 @@ const SignIn: FC = () => {
     mutate(JSON.stringify(postData));
   };
 
+  const { isError: isSessionError } = useCheckSessionApi(token);
+
   return (
     <ThemeProvider theme={theme}>
-      {isError ? (
+      {(isError || isSessionError) && (
         <Alert severity="error">
           <AlertTitle>Ошибка!</AlertTitle>
           <strong>Неверный логин или пароль :(</strong>
         </Alert>
-      ) : null}
+      )}
 
       <Container component="main" maxWidth="xs">
         <CssBaseline />
