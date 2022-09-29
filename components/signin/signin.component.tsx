@@ -35,11 +35,11 @@ const SignIn: FC = () => {
     mutate(JSON.stringify(postData));
   };
 
-  const sessionCheck = useCheckSessionApi(token);
+  const { isError: isSessionError } = useCheckSessionApi(token);
 
   return (
     <ThemeProvider theme={theme}>
-      {(isError || sessionCheck.isError) && (
+      {(isError || isSessionError) && (
         <Alert severity="error">
           <AlertTitle>Ошибка!</AlertTitle>
           <strong>Неверный логин или пароль :(</strong>

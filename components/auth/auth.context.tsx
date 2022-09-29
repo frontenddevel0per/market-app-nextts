@@ -8,13 +8,13 @@ import {
   Dispatch,
   SetStateAction,
 } from "react";
-import { useQuery } from "react-query";
 import { useAppSelector, useAppDispatch } from "../../redux/hooks";
+import { useFetchSessionApi } from "../shared.api";
 import { tokenValueSelector } from "../helpers";
-import { setSession, clearUserData } from "../../redux/userdata/userdata-slice";
+import LoadingPlug from "../loading-plug/loading-plug.component";
 
 type AuthProviderProps = {
-  children?: ReactNode;
+  children: ReactNode;
 };
 
 type AuthContextValues = {
@@ -35,41 +35,14 @@ export const useAuthContext = () => {
 
 export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const router = useRouter();
-  const dispatch = useAppDispatch();
   const token = useAppSelector(tokenValueSelector);
   const [isAuthorized, setIsAuthorized] = useState(false);
 
-  const { isFetching } = useQuery(
-    ["FirstLoadCheck", token],
-    () =>
-      fetch("https://api.escuelajs.co/api/v1/auth/profile", {
-        headers: { Authorization: `Bearer ${token}` },
-      }).then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          throw new Error("Error occurred");
-        }
-      }),
-    {
-      enabled: !!token,
-      retry: false,
-      onSuccess: (data) => {
-        console.log("checked session, everything is allright :)");
-        dispatch(setSession(data));
-        setIsAuthorized(true);
-      },
-      onError: () => {
-        console.log("checked session, token is bad :(");
-        dispatch(clearUserData());
-        router.push("/signin");
-      },
-    }
-  );
+  const { isFetching } = useFetchSessionApi(token, setIsAuthorized);
 
   return (
     <AuthContext.Provider value={{ isAuthorized, setIsAuthorized }}>
-      {!isFetching && children}
+      {isFetching ? <LoadingPlug /> : children}
     </AuthContext.Provider>
   );
 };

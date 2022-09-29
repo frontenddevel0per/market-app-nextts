@@ -18,7 +18,7 @@ import { useFetchCategoriesApi } from "./sidebar.api";
 import { bagLengthSelector, tokenValueSelector } from "../helpers";
 import type { CategoryType } from "./sidebar.types";
 import { useRouter } from "next/router";
-import { useAuthContext } from "../auth-context/auth-context.context";
+import { useAuthContext } from "../auth/auth.context";
 
 const Sidebar: FC = () => {
   const router = useRouter();
@@ -33,6 +33,25 @@ const Sidebar: FC = () => {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const onLogout = () => {
+    dispatch(clearUserData());
+    setIsAuthorized(false);
+  };
+
+  const onMenuListClick = (id?: number) => {
+    handleClose();
+    if (id) {
+      dispatch(setCategory(`categories/${id}/`));
+    } else {
+      dispatch(setCategory(""));
+    }
+    scroll.scrollTo(0, {
+      duration: 500,
+      smooth: true,
+      containerId: "catalog",
+    });
   };
 
   const { data, isSuccess } = useFetchCategoriesApi();
@@ -70,34 +89,12 @@ const Sidebar: FC = () => {
             horizontal: "left",
           }}
         >
-          <MenuItem
-            key="all"
-            onClick={() => {
-              handleClose();
-              dispatch(setCategory(""));
-              scroll.scrollTo(0, {
-                duration: 500,
-                smooth: true,
-                containerId: "catalog",
-              });
-            }}
-          >
+          <MenuItem key="all" onClick={() => onMenuListClick()}>
             All
           </MenuItem>
           {isSuccess &&
             data.map((item: CategoryType) => (
-              <MenuItem
-                key={item.id}
-                onClick={() => {
-                  handleClose();
-                  dispatch(setCategory(`categories/${item.id}/`));
-                  scroll.scrollTo(0, {
-                    duration: 500,
-                    smooth: true,
-                    containerId: "catalog",
-                  });
-                }}
-              >
+              <MenuItem key={item.id} onClick={() => onMenuListClick(item.id)}>
                 {item.name}
               </MenuItem>
             ))}
@@ -121,13 +118,7 @@ const Sidebar: FC = () => {
               <LoginIcon htmlColor="white" />
             </Link>
           ) : (
-            <LogoutIcon
-              htmlColor="white"
-              onClick={() => {
-                dispatch(clearUserData());
-                setIsAuthorized(false);
-              }}
-            />
+            <LogoutIcon htmlColor="white" onClick={() => onLogout()} />
           )}
         </div>
       </div>

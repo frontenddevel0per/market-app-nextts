@@ -8,7 +8,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import Sidebar from "../components/sidebar/sidebar.component";
 import Sidebag from "../components/sidebag/sidebag.component";
 import { useRouter } from "next/router";
-import { AuthProvider } from "../components/auth-context/auth-context.context";
+import { AuthProvider } from "../components/auth/auth.context";
 
 let persistor = persistStore(store);
 const queryClient = new QueryClient({
