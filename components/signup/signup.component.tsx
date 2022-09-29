@@ -36,12 +36,12 @@ const SignUp: FC = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      {isError ? (
+      {isError && (
         <Alert severity="error">
           <AlertTitle>Ошибка!</AlertTitle>
           <strong>Не удалось зарегистрировать пользователя</strong>
         </Alert>
-      ) : null}
+      )}
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box

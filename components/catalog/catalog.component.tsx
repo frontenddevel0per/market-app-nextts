@@ -23,6 +23,17 @@ const Catalog: FC = () => {
     setCounter(1);
   }, [category]);
 
+  const onPageButtonClick = (id: number) => {
+    {
+      setCounter(id);
+      scroll.scrollTo(0, {
+        duration: 500,
+        smooth: true,
+        containerId: "catalog",
+      });
+    }
+  };
+
   const { data, isSuccess, isPreviousData } = useFetchItemsApi(
     category,
     counter
@@ -48,14 +59,7 @@ const Catalog: FC = () => {
         <Button
           variant="outlined"
           startIcon={<NavigateBeforeIcon />}
-          onClick={() => {
-            setCounter(counter - 1);
-            scroll.scrollTo(0, {
-              duration: 500,
-              smooth: true,
-              containerId: "catalog",
-            });
-          }}
+          onClick={() => onPageButtonClick(counter - 1)}
           disabled={counter < 2}
         >
           Back
@@ -64,14 +68,7 @@ const Catalog: FC = () => {
         <Button
           variant="outlined"
           startIcon={<NavigateNextIcon />}
-          onClick={() => {
-            setCounter(counter + 1);
-            scroll.scrollTo(0, {
-              duration: 500,
-              smooth: true,
-              containerId: "catalog",
-            });
-          }}
+          onClick={() => onPageButtonClick(counter + 1)}
           disabled={isPreviousData}
         >
           Next

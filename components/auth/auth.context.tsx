@@ -1,26 +1,10 @@
 import { useRouter } from "next/router";
-import {
-  FC,
-  useState,
-  createContext,
-  ReactNode,
-  useContext,
-  Dispatch,
-  SetStateAction,
-} from "react";
+import { FC, useState, createContext, useContext } from "react";
 import { useAppSelector, useAppDispatch } from "../../redux/hooks";
 import { useFetchSessionApi } from "../shared.api";
 import { tokenValueSelector } from "../helpers";
+import { AuthProviderProps, AuthContextValues } from "./auth.types";
 import LoadingPlug from "../loading-plug/loading-plug.component";
-
-type AuthProviderProps = {
-  children: ReactNode;
-};
-
-type AuthContextValues = {
-  isAuthorized: boolean;
-  setIsAuthorized: Dispatch<SetStateAction<boolean>>;
-};
 
 const AuthContext = createContext<AuthContextValues | null>(null);
 
