@@ -28,6 +28,8 @@ a {
 
 .main-page {
   height: 100vh;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
   display: flex;
   vertical-align: middle;
   justify-content: space-between;
