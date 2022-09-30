@@ -41,3 +41,15 @@
         }
     }
 }
+
+@media all and (max-width: 768px) {
+    .catalog {
+        padding: 24px 0;
+    }
+}
+
+@media all and (max-width: 630px) {
+    .catalog__list {
+        grid-template-columns: 1fr;
+    }
+}

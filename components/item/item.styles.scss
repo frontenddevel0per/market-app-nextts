@@ -88,3 +88,19 @@
         }
     }
 }
+
+@media all and (max-width: 1100px) {
+    .item {
+        padding: 40px 0;
+    }
+}
+
+@media all and (max-width: 768px) {
+    .item {
+        padding: 40px 20px;
+
+        &__header {
+            flex-direction: column;
+        }
+    }
+}

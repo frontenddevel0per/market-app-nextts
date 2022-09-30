@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import { FC, useState, createContext, useContext } from "react";
 import { useAppSelector, useAppDispatch } from "../../redux/hooks";
 import { useFetchSessionApi } from "../shared.api";
@@ -18,7 +17,6 @@ export const useAuthContext = () => {
 };
 
 export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
-  const router = useRouter();
   const token = useAppSelector(tokenValueSelector);
   const [isAuthorized, setIsAuthorized] = useState(false);
 
