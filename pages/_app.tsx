@@ -9,6 +9,7 @@ import Sidebar from "../components/sidebar/sidebar.component";
 import Sidebag from "../components/sidebag/sidebag.component";
 import { useRouter } from "next/router";
 import { AuthProvider } from "../components/auth/auth.context";
+import { useEffect } from "react";
 
 let persistor = persistStore(store);
 const queryClient = new QueryClient({
@@ -21,6 +22,11 @@ const queryClient = new QueryClient({
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
+
+  useEffect(() => {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+  }, []);
 
   return (
     <Provider store={store}>
