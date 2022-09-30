@@ -73,3 +73,25 @@
         }
     }
 }
+
+@media all and (max-width: 600px) {
+    .bag__item {
+            gap: 8px;
+
+            &-desc-priceholder {
+                flex-direction: column;
+                padding-top: 0;
+            }
+        }
+}
+
+
+@media all and (max-width: 500px) {
+    .bag__item {
+        flex-direction: column;
+        
+        img {
+            margin: 0 auto;
+        }
+    }
+}

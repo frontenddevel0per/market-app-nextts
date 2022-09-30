@@ -18,3 +18,16 @@
         gap: 40px;
     }
 }
+
+@media all and (max-width: 768px) {
+    .bag {
+        padding: 24px 0;
+    }
+}
+
+@media all and (max-width: 600px) {
+    .bag h1 {
+        padding: 0;
+        text-align: center;
+    }
+}
