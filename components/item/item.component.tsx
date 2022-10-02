@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import Image from "next/future/image";
@@ -15,6 +16,7 @@ import { AddButton } from "./item.styled";
 import { ItemProps } from "./item.types";
 
 const Item: FC<ItemProps> = ({ id, title, desc, price, src }) => {
+  const router = useRouter();
   const [activeImage, setActiveImage] = useState<string>(src[0]);
   const dispatch = useAppDispatch();
   const isInBag = useAppSelector(bagValueSelector).find((e) => e.id === id);
@@ -43,11 +45,13 @@ const Item: FC<ItemProps> = ({ id, title, desc, price, src }) => {
 
   return (
     <div className="item">
-      <Link href="/">
-        <Button startIcon={<ArrowBackIosIcon />} color="inherit">
-          Back
-        </Button>
-      </Link>
+      <Button
+        startIcon={<ArrowBackIosIcon />}
+        color="inherit"
+        onClick={() => router.back()}
+      >
+        Back
+      </Button>
 
       <div className="item__header">
         <div className="item__header-collage">

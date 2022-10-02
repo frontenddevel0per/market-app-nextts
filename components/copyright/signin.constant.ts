@@ -1,4 +1,4 @@
 export const SITE = {
-  NAME: "Kids Shop",
+  NAME: "Market App",
   LINK: "https://market-app-nextts.vercel.app/",
 };

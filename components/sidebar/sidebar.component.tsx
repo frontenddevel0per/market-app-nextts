@@ -10,12 +10,13 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { purple } from "@mui/material/colors";
 import { useAppDispatch } from "../../redux/hooks";
 import { clearUserData } from "../../redux/userdata/userdata-slice";
 import { setCategory } from "../../redux/category/category-slice";
 import { useAppSelector } from "../../redux/hooks";
 import { useFetchCategoriesApi } from "./sidebar.api";
-import { bagLengthSelector, tokenValueSelector } from "../helpers";
+import { bagLengthSelector, categoryValueSelector } from "../helpers";
 import type { CategoryType } from "./sidebar.types";
 import { useRouter } from "next/router";
 import { useAuthContext } from "../auth/auth.context";
@@ -24,7 +25,7 @@ const Sidebar: FC = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const itemsCount = useAppSelector(bagLengthSelector);
-  const token = useAppSelector(tokenValueSelector);
+  const category = useAppSelector(categoryValueSelector);
   const { isAuthorized, setIsAuthorized } = useAuthContext();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -47,6 +48,7 @@ const Sidebar: FC = () => {
     } else {
       dispatch(setCategory(""));
     }
+
     scroll.scrollTo(0, {
       duration: 500,
       smooth: true,
@@ -61,7 +63,9 @@ const Sidebar: FC = () => {
       <div className="sidebar-links">
         <Link href="/">
           <IconButton>
-            <StorefrontIcon htmlColor="black" />
+            <StorefrontIcon
+              htmlColor={router.pathname === "/" ? purple[500] : "black"}
+            />
           </IconButton>
         </Link>
         <IconButton
@@ -89,12 +93,24 @@ const Sidebar: FC = () => {
             horizontal: "left",
           }}
         >
-          <MenuItem key="all" onClick={() => onMenuListClick()}>
+          <MenuItem
+            key="all"
+            onClick={() => onMenuListClick()}
+            sx={category === "" ? { color: purple[500] } : null}
+          >
             All
           </MenuItem>
           {isSuccess &&
             data.map((item: CategoryType) => (
-              <MenuItem key={item.id} onClick={() => onMenuListClick(item.id)}>
+              <MenuItem
+                key={item.id}
+                onClick={() => onMenuListClick(item.id)}
+                sx={
+                  category === `categories/${item.id}/`
+                    ? { color: purple[500] }
+                    : null
+                }
+              >
                 {item.name}
               </MenuItem>
             ))}
@@ -102,7 +118,9 @@ const Sidebar: FC = () => {
         <Link href="/bag">
           <IconButton>
             <Badge badgeContent={itemsCount} color="error">
-              <LocalMallIcon htmlColor="black" />
+              <LocalMallIcon
+                htmlColor={router.pathname === "/bag" ? purple[500] : "black"}
+              />
             </Badge>
           </IconButton>
         </Link>
