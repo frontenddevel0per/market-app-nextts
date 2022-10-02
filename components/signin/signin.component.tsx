@@ -100,12 +100,12 @@ const SignIn: FC = () => {
             >
               Sign In
             </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
+            <Link href="/">
+              <Button fullWidth variant="contained" sx={{ mb: 2 }}>
+                Continue without autorization
+              </Button>
+            </Link>
+            <Grid container sx={{ justifyContent: "center" }}>
               <Grid item>
                 <Link href="/signup" variant="body2">
                   {"Don't have an account? Sign Up"}

@@ -29,7 +29,7 @@ const BagItem: FC<BagItemProps> = ({ id, count, data }) => {
           </Link>
           <div className="bag__item-desc-priceholder">
             <p className="bag__item-desc-priceholder-price">
-              $ {data.price} x {count}
+              $ {data.price} x {count} = $ {data.price * count}
             </p>
             <div className="bag__item-desc-priceholder-counter">
               <IconButton onClick={() => dispatch(removeItem(id))}>
