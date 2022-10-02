@@ -7,15 +7,23 @@ import BagPlug from "../bag-plug/bag-plug";
 const Bag: FC = () => {
   const bagValue = useAppSelector(bagValueSelector);
   const bagLength = useAppSelector(bagLengthSelector);
-  const bagItems = bagValue.map((item) => (
-    <BagItem key={item.id} id={item.id} count={item.count} data={item.data} />
-  ));
 
   return (
     <div className="bag">
       <h1>Check you Bag Item</h1>
       <div className="bag__list">
-        {bagLength === 0 ? <BagPlug /> : bagItems}
+        {bagLength === 0 ? (
+          <BagPlug />
+        ) : (
+          bagValue.map((item) => (
+            <BagItem
+              key={item.id}
+              id={item.id}
+              count={item.count}
+              data={item.data}
+            />
+          ))
+        )}
       </div>
     </div>
   );
