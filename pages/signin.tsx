@@ -24,6 +24,7 @@ const Signin: NextPage = () => {
     <>
       <Head>
         <title>SignIn</title>
+        <meta name="keywords" content="войти интернет магазин" />
       </Head>
       <div className="login">{<SignIn />}</div>
     </>

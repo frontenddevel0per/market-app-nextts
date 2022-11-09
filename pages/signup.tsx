@@ -18,6 +18,10 @@ const Signup: NextPage = () => {
     <>
       <Head>
         <title>SignUp</title>
+        <meta
+          name="keywords"
+          content="зарегистрироваться в интернет магазине"
+        />
       </Head>
       <div className="login">{token === null ? <SignUp /> : null}</div>
     </>

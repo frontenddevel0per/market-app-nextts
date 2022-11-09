@@ -7,6 +7,10 @@ const Home: NextPage = () => {
     <>
       <Head>
         <title>Bag</title>
+        <meta
+          name="keywords"
+          content="интернет магазин корзина, корзина магазин"
+        />
       </Head>
       <Bag />
     </>
