@@ -14,6 +14,11 @@ const ItemPage: NextPage = () => {
     <>
       <Head>
         <title>{data?.title}</title>
+        <meta
+          name="keywords"
+          content={`купить товар +в интернет магазине, купить товары онлайн, купить вещи онлайн, заказать доставку товара, заказать товары бесплатная доставка, купить ${data?.title}`}
+        />
+        <meta name="description" content={`${data?.description}`} />
       </Head>
       {id !== null && isSuccess ? (
         <Item
